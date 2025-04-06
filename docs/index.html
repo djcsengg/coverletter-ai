@@ -1,26 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>AI Cover Letter Generator | Free Tool</title>
-  <meta name="description" content="Instantly generate professional cover letters from your resume using AI. 100% free.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Cover Letter Generator | Free Tool</title>
+    <meta name="description" content="Instantly generate professional cover letters from your resume using AI. 100% free.">
+    <meta name="keywords" content="AI cover letter, free cover letter generator, resume to cover letter">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        button {
+            background: #0070f3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 20px;
+            white-space: pre-wrap;
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-  <h1>AI Cover Letter Generator</h1>
-  <textarea id="resume" placeholder="Paste your resume here..."></textarea>
-  <button onclick="generate()">Generate</button>
-  <div id="result"></div>
-  
-  <script>
-    async function generate() {
-      const resume = document.getElementById("resume").value;
-      const response = await fetch("YOUR_VERCEL_API_URL", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ resume })
-      });
-      const data = await response.json();
-      document.getElementById("result").innerHTML = data.coverLetter;
-    }
-  </script>
+    <h1>AI Cover Letter Generator</h1>
+    <p>Paste your resume below to generate a tailored cover letter:</p>
+    
+    <textarea id="resume" placeholder="Paste your resume here..."></textarea>
+    <button onclick="generateCoverLetter()">Generate Cover Letter</button>
+    
+    <div id="result"></div>
+    
+    <h2>How It Works</h2>
+    <ol>
+        <li>Paste your resume in the box above</li>
+        <li>Click "Generate Cover Letter"</li>
+        <li>Our AI will create a professional cover letter tailored to your resume</li>
+        <li>Copy and use it for your job applications!</li>
+    </ol>
+
+    <script>
+        async function generateCoverLetter() {
+            const resume = document.getElementById("resume").value;
+            const button = document.querySelector("button");
+            
+            if (!resume.trim()) {
+                alert("Please paste your resume first!");
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent = "Generating...";
+            document.getElementById("result").innerHTML = "Processing...";
+
+            try {
+                const response = await fetch("https://coverletter-ai-gules.vercel.app/api/generate", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ resume })
+                });
+
+                if (!response.ok) throw new Error("API request failed");
+                
+                const data = await response.json();
+                document.getElementById("result").innerHTML = data.coverLetter;
+            } catch (error) {
+                console.error(error);
+                document.getElementById("result").innerHTML = "Error: Failed to generate. Please try again later.";
+            } finally {
+                button.disabled = false;
+                button.textContent = "Generate Cover Letter";
+            }
+        }
+    </script>
+
+    <!-- Simple Analytics (optional) -->
+    <script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
 </body>
 </html>
