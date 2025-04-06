@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Cover Letter Generator | Free Tool</title>
+  <meta name="description" content="Instantly generate professional cover letters from your resume using AI. 100% free.">
+</head>
+<body>
+  <h1>AI Cover Letter Generator</h1>
+  <textarea id="resume" placeholder="Paste your resume here..."></textarea>
+  <button onclick="generate()">Generate</button>
+  <div id="result"></div>
+  
+  <script>
+    async function generate() {
+      const resume = document.getElementById("resume").value;
+      const response = await fetch("YOUR_VERCEL_API_URL", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ resume })
+      });
+      const data = await response.json();
+      document.getElementById("result").innerHTML = data.coverLetter;
+    }
+  </script>
+</body>
+</html>
