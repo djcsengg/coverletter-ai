@@ -1,2 +1,2 @@
 # coverletter-ai
-esume-to-Cover Letter Generator
+Resume-to-Cover Letter Generator
